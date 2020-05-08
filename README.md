@@ -30,24 +30,24 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 ### Setup Postman environment variables:
 - Import Postman collection, and setup the following environment vialables
     - in Step 0, Pre-request Script: 
-        1. Forge Client Key, please change to your Forge Client Id and Secret.
-        2. Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
-        3. User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
-        4. Base domain, should be https://developer.api.autodesk.com/ by default.
-        5. Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
-        6. admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
+        - Forge Client Key, please change to your Forge Client Id and Secret.
+        - Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
+        - User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
+        - Base domain, should be https://developer.api.autodesk.com/ by default.
+        - Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
+        - admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
 
     - in Step 3, Pre-request Script:
         - Specify the project name that you want to create.
 
 ### Tutorials of BIM360 project setup workflow
 - Step 0: Reset the environment variables as follow:
-    1. Forge Client Key, please change to your Forge Client Id and Secret.
-    2. Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
-    3. User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
-    4. Base domain, should be https://developer.api.autodesk.com/ by default.
-    5. Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
-    6. admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
+    - Forge Client Key, please change to your Forge Client Id and Secret.
+    - Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
+    - User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
+    - Base domain, should be https://developer.api.autodesk.com/ by default.
+    - Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
+    - admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
 - Step 1: Get 2 Legged Token to operate within BIM360 Admin.
 - Step 2: Setup BIM360 Hub and Account Id.
 - Step 3: Create a new project.
