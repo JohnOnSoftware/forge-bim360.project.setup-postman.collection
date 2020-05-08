@@ -66,7 +66,7 @@ Until now, you should have successfully created a project with all the avialable
 
 ![bim360 workflow automation test](Img/automationtest.png)
 
-**Please refer the [Video](https://youtu.be/tbd) for how to use postman runner, and follow the steps:**
+**Please refer to the [Video](https://youtu.be/h_eFFf8f9UY) for how to use postman runner, and then follow the steps to run the collection:**
 
 ### Tutorials about workflow
 
