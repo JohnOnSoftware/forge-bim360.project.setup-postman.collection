@@ -1,0 +1,729 @@
+{
+	"info": {
+		"_postman_id": "24511218-2a5e-4c62-bf1a-d90bf2f9227c",
+		"name": "BIM360 Project Setup Tutorial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 0: Reset the environment variables only",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bdbf8ee6-2ec1-499a-a208-7673a75524da",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "256b3b0c-89c6-42d0-b3fb-6c7c8170a3ac",
+						"exec": [
+							"pm.environment.clear();",
+							"",
+							"//////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+							"// Please change the following variables according to your account setting",
+							"// your Forge App key",
+							"pm.environment.set(\"client_id\",     \"your_forge_client_id\");",
+							"pm.environment.set(\"client_secret\", \"your_forge_client_secret\");",
+							"",
+							"// admin email list while activating different services,",
+							"pm.environment.set(\"service_admins\", \"admin1@company.com,admin2@company.com\");",
+							"",
+							"// the user list will be added into the project(project_administration and document_management) as admin",
+							"pm.environment.set(\"user_emails\", \"user1@company.com,user1@company.com\");",
+							"//////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+							"",
+							"pm.environment.set(\"base_domain\", \"https://developer.api.autodesk.com/\");",
+							"// will activate the service type in the list",
+							"pm.environment.set(\"service_types\", \"doc_manager,fng,pm,admin,cost,gng,glue,plan,field\");",
+							"",
+							"// reset the index",
+							"pm.environment.set(\"admin_index\", \"0\");",
+							"pm.environment.set(\"user_index\", \"0\");",
+							"pm.environment.set(\"service_index\", \"0\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "VIEW",
+				"header": [],
+				"url": {
+					"raw": "{{base_domain}}/health",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Reset the following environment variables:\n1. Forge Client Key, please change to your Forge Client Id and Secret.\n2. Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types. \n3. User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.\n4. Base domain, should be https://developer.api.autodesk.com/ by default.\n5. Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.\n6. admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 1: Get 2 Legged Token to operate within BIM360 Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a6e1f31-7798-4bb5-8fd1-c04755e11c79",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"access_token\", data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "72c9a6b7-d8a2-40fc-97f6-ba1a024fe5d2",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "data:read bucket:read bucket:create data:write bucket:delete account:read account:write",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_domain}}/authentication/v1/authenticate",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"authentication",
+						"v1",
+						"authenticate"
+					]
+				},
+				"description": "Setup \"access_token\".\nNote: Before getting the token to operate with BIM360 API, make sure you integrated your BIM360 Account with the Forge App already."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Setup BIM360 Hub and Account Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f296d687-c6b1-4779-a68d-d0d5461faf19",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							"// setup the environment variable \"hub_id\" and \"account_id\" with the 1st BIM360 hub",
+							"var responseBody = JSON.parse(responseBody);",
+							"var bim_hub = responseBody.data.find( hub =>  hub.id.indexOf(\"b.\") !== -1);",
+							"if(bim_hub !== null ){",
+							"    ",
+							"    pm.environment.set(\"hub_id\",     bim_hub.id);",
+							"    pm.environment.set(\"account_id\", bim_hub.id.split('b.').join(''));",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ad81e581-6355-489b-9a02-7689b08e0484",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/project/v1/hubs",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs"
+					]
+				},
+				"description": "Setup the current BIM360 Hub and Account as \"hub_id\" & \"account_id\""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Create a new project",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a9335a0d-b69b-4998-b59f-b5b3dc9eebf8",
+						"exec": [
+							"// please make sure to change to the correct project name",
+							"pm.environment.set(\"project_name\", \"Change to your project name\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d273a65-53c4-4908-ac0c-a01f21394b86",
+						"exec": [
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"project_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"{{project_name}}\",\n  \"start_date\": \"2015-05-02\",\n  \"end_date\": \"2018-04-03\",\n  \"project_type\": \"Sample Projects 1\",\n  \"value\": 3000,\n  \"currency\": \"USD\",\n  \"job_number\": \"0219-01\",\n  \"address_line_1\": \"The Fifth Avenue\",\n  \"address_line_2\": \"#301\",\n  \"city\": \"Shanghai\",\n  \"state_or_province\": \"Shanghai\",\n  \"postal_code\": \"10011\",\n  \"country\": \"China\",\n  \"timezone\": \"America/New_York\",\n  \"language\": \"en\",\n  \"construction_type\": \"Renovation\",\n  \"contract_type\": \"Design-Bid\"\n\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{base_domain}}hq/v1/accounts/:account_id/projects",
+					"host": [
+						"{{base_domain}}hq"
+					],
+					"path": [
+						"v1",
+						"accounts",
+						":account_id",
+						"projects"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "{{account_id}}"
+						}
+					]
+				},
+				"description": "Create a new project, and setup the \"project_id\".\nNote: Please specify the project name in Pre-request Script before calling this endpoint."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Get company list and setup the company Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d1e32db5-500c-47bb-ad65-eaa215a8ce92",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"company_id\", data[0].id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/hq/v1/accounts/:account_id/projects/:project_id/companies",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"hq",
+						"v1",
+						"accounts",
+						":account_id",
+						"projects",
+						":project_id",
+						"companies"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "{{account_id}}"
+						},
+						{
+							"key": "project_id",
+							"value": "{{project_id}}"
+						}
+					]
+				},
+				"description": "Get the 1st company of this project, set the \"company_id\""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Activate each project service by adding project admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7901eae4-f262-40ad-9439-00eb83539c91",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"var service_index =  parseInt(pm.environment.get(\"service_index\"));",
+							"var service_types =  pm.environment.get(\"service_types\");",
+							"var service_type_list = service_types.split(',');",
+							"",
+							"var admin_index =  parseInt(pm.environment.get(\"admin_index\"));",
+							"var service_admins =  pm.environment.get(\"service_admins\");",
+							"var admin_list = service_admins.split(',');",
+							"",
+							"// iterate all the service type first",
+							"if( service_index < service_type_list.length - 1 ){",
+							"    pm.environment.set(\"service_index\", service_index+1);",
+							"    postman.setNextRequest('Step 5: Activate each project service by adding project admin');",
+							"}else if( admin_index < admin_list.length -1 ){",
+							"    pm.environment.set(\"admin_index\", admin_index+1);",
+							"    pm.environment.set(\"service_index\", 0);",
+							"    postman.setNextRequest('Step 5: Activate each project service by adding project admin');",
+							"}else{",
+							"    postman.setNextRequest('Step 6: Find and setup project admin');",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "61ead80e-5592-44f8-aef1-f1cf01e0b376",
+						"exec": [
+							"// Set the current service admin email",
+							"var admin_index    =  parseInt(pm.environment.get(\"admin_index\"));",
+							"var service_admins =  pm.environment.get(\"service_admins\");",
+							"var admin_list     =  service_admins.split(',');",
+							"if( admin_index < admin_list.length ){",
+							"    pm.environment.set(\"service_admin\", admin_list[admin_index].trim());",
+							"}",
+							"",
+							"// Set the current service type to be activated",
+							"var service_types =  pm.environment.get(\"service_types\");",
+							"var service_index =  parseInt(pm.environment.get(\"service_index\"));",
+							"var service_type_list = service_types.split(',');",
+							"if( service_index < service_type_list.length ){",
+							"    pm.environment.set(\"service_type\", service_type_list[service_index].trim());",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"service_type\": \"{{service_type}}\",\n  \"company_id\": \"{{company_id}}\",\n  \"email\":\"{{service_admin}}\",\n  \"role\": \"project_admin\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{base_domain}}hq/v1/accounts/:account_id/projects/:project_id/users",
+					"host": [
+						"{{base_domain}}hq"
+					],
+					"path": [
+						"v1",
+						"accounts",
+						":account_id",
+						"projects",
+						":project_id",
+						"users"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "{{account_id}}"
+						},
+						{
+							"key": "project_id",
+							"value": "{{project_id}}"
+						}
+					]
+				},
+				"description": "Activate all the avialable service types listed in \"service_types\" for every admin in \"service_admins\".\nNote: Have to wait for the project service admin to activate the service from email manually, then you can actually access the project services."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6: Find and setup project admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dfefa80b-e0c3-41fd-8ce6-57c363f083e3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// find and set the project admin",
+							"var responseBody = JSON.parse(responseBody);",
+							"var project_admin = responseBody.results.find( user =>  user.accessLevels.projectAdmin === true && user.status === \"active\" );",
+							"if( project_admin ){",
+							"    pm.environment.set(\"project_admin_id\", project_admin.id);",
+							"}",
+							"",
+							"",
+							"",
+							"// for ( var index in responseBody.results) {",
+							"//     if(responseBody.results[index].accessLevels.projectAdmin == true && responseBody.results[index].status == \"active\"){",
+							"//         postman.setEnvironmentVariable(\"project_admin_id\", responseBody.results[index].id);",
+							"//         return;",
+							"//     }",
+							"// }",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/admin/v1/projects/:projectId/users",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"admin",
+						"v1",
+						"projects",
+						":projectId",
+						"users"
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{project_id}}"
+						}
+					]
+				},
+				"description": "Get the 1st project admin, and set to \"project_admin_id\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Find and setup industry role",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a323cfd-b828-4e14-99a5-15ed61086bee",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"// find and set the industry role(industry_role) ",
+							"const industry_role_name =  \"Architect\";",
+							"var responseBody = JSON.parse(responseBody);",
+							"var industry_role = responseBody.find( role =>  role.name === industry_role_name );",
+							"if( industry_role ){",
+							"    pm.environment.set(\"industry_role\", industry_role.id);",
+							"}",
+							"",
+							"",
+							"",
+							"// var responseBody = JSON.parse(responseBody);",
+							"// for ( var index in responseBody) {",
+							"//     if(responseBody[index].name == industry_role_name){",
+							"//         postman.setEnvironmentVariable(\"industry_role\", responseBody[index].id);",
+							"//         return;",
+							"//     }",
+							"// }",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/hq/v2/accounts/{{account_id}}/projects/{{project_id}}/industry_roles",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"hq",
+						"v2",
+						"accounts",
+						"{{account_id}}",
+						"projects",
+						"{{project_id}}",
+						"industry_roles"
+					]
+				},
+				"description": "Get the specified industry role from this project, and set to \"industry_role\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Step 8: Add more users to the project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60d2dfbf-e3d3-4a33-8ba6-8aa638bdaf7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var user_emails =  pm.environment.get(\"user_emails\");",
+							"var user_index =  parseInt(pm.environment.get(\"user_index\"));",
+							"var user_email_list = user_emails.split(',');",
+							"if( user_index < user_email_list.length -1 ){",
+							"    pm.environment.set(\"user_index\", user_index+1);",
+							"    postman.setNextRequest('Step 8: Add more users to the project');",
+							"}else",
+							"{",
+							"    postman.setNextRequest('Stop the collection');",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5875ff56-19f5-46e9-9bfe-4bece25b82a3",
+						"exec": [
+							"var user_emails =  pm.environment.get(\"user_emails\");",
+							"var user_index =  parseInt(pm.environment.get(\"user_index\"));",
+							"var user_email_list = user_emails.split(',');",
+							"if( user_index < user_email_list.length ){",
+							"    pm.environment.set(\"user_email\", user_email_list[user_index].trim());",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-user-id",
+						"value": "{{project_admin_id}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"email\": \"{{user_email}}\",\n    \"services\": {\n      \"project_administration\": {\n        \"access_level\": \"admin\"\n      },\n      \"document_management\": {\n        \"access_level\": \"admin\"\n      }\n    },\n    \"company_id\":\"{{company_id}}\",\n    \"industry_roles\": [\n      \"{{industry_role}}\"\n    ]\n  }\n]\n"
+				},
+				"url": {
+					"raw": "{{base_domain}}hq/v2/accounts/:account_id/projects/:project_id/users/import",
+					"host": [
+						"{{base_domain}}hq"
+					],
+					"path": [
+						"v2",
+						"accounts",
+						":account_id",
+						"projects",
+						":project_id",
+						"users",
+						"import"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "{{account_id}}"
+						},
+						{
+							"key": "project_id",
+							"value": "{{project_id}}"
+						}
+					]
+				},
+				"description": "Add all the users listed in \"user_emails\" to the project services of project_administration & document_management as admin access level."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJzY29wZSI6WyJkYXRhOnJlYWQiLCJkYXRhOndyaXRlIiwiYWNjb3VudDpyZWFkIiwiYWNjb3VudDp3cml0ZSJdLCJjbGllbnRfaWQiOiJrSnRiTFlLZ0dSOU5rOHgwVnFscmMyWTAzSUg1dTlsUCIsImdyYW50X2lkIjoia2lGQkdtQjdhZVVJSHF6QW5rQm5kdVc1MENPWGU2NFAiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwNjAiLCJqdGkiOiJaS0c2QWM4MnhIUmlaTDZ3ZTlHUXFBYkE3Nm5yVnNNNmV1dWtEazhUb3FKc21FOXlyWXVSZXVEa1JOcWlJcW5KIiwidXNlcmlkIjoiNFY0V0tRSkdHUTdOIiwiZXhwIjoxNTg3OTczNzk2fQ.hUSumFk5JSipwJljyTkV-w6Xqfc576sYHSI2l6rGMz4",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2aeab420-5fbb-401b-84ec-057181ebe9fc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d0a0ffc5-175f-45fa-805d-152eaebbbd56",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
