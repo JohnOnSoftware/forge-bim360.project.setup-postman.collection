@@ -17,7 +17,7 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 ![Collection](Img/collection.png)
 
 ## Demonstration
-[TBD](https://youtu.be/tbd "BIM 360 project setup postman collection tutorial")
+[![https://youtu.be/GdJO3dPNXdY](http://img.youtube.com/vi/GdJO3dPNXdY/0.jpg)](https://youtu.be/GdJO3dPNXdY "BIM 360 project setup postman collection tutorial")
 
 ## Preparation before you begin:
 - [Create Forge App, get access to a BIM 360 Account](https://forge.autodesk.com/en/docs/bim360/v1/tutorials/getting-started/get-access-to-account/)
@@ -25,7 +25,7 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 
 ## Instructions to run the Postman tutorial are as below:
 
-**Please watch the [Video](https://youtu.be/tbd) for the detail workflow, or follow the steps:**
+**Please watch the [Video](https://youtu.be/GdJO3dPNXdY) for the detail workflow, or follow the steps:**
 
 ### Setup Postman environment variables:
 - Import Postman collection, and setup the following environment vialables
