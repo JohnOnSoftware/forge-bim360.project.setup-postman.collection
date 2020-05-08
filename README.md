@@ -77,6 +77,22 @@ Until now, you should have successfully created a project with all the avialable
 
 **Note:** The collection will firstly automatically create a project, then activate the avialable project services for all the admins, after that, import all the users to the project as admin of document management and project administration.   
 
+
+ # Tips & Tricks
+- Currently, the following project services could be activated by BIM360 API:
+
+    | Service Type | Service Name | 
+    | :-----:| :----: | 
+    | Document Management | doc_manager | 
+    | Cost Management | cost | 
+    | Model Coordination | gng | 
+    | Project Management | pm | 
+    | Project Administration | admin | 
+    | Classic glue | glue | 
+    | Classic plan | plan | 
+    | Classic field | field | 
+
+
 ## License
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
