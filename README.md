@@ -3,7 +3,7 @@
 ![Platforms](https://img.shields.io/badge/Web-Windows|MacOS-lightgray.svg)
 [![oAuth2](https://img.shields.io/badge/Authentication-v1-green.svg)](http://developer.autodesk.com/)
 [![Data-Management](https://img.shields.io/badge/Data%20Management-v2-green.svg)](http://developer.autodesk.com/)
-[![BIM360-CostManagement](https://img.shields.io/badge/BIM360%20Cost%20Management-beta-green.svg)](http://developer.autodesk.com/)
+[![BIM360-Account-Admin](https://img.shields.io/badge/BIM360%20Account%20Admin-V1-green.svg)](http://developer.autodesk.com/)
 
 [![Postman](https://img.shields.io/badge/Postman-v7-orange.svg)](https://www.getpostman.com/)
 
@@ -17,7 +17,7 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 ![Collection](Img/collection.png)
 
 ## Demonstration
-[![https://youtu.be/UCRWpUwLifo](http://img.youtube.com/vi/UCRWpUwLifo/0.jpg)](https://youtu.be/UCRWpUwLifo "BIM 360 project setup postman collection tutorial")
+[TBD](https://youtu.be/tbd "BIM 360 project setup postman collection tutorial")
 
 ## Preparation before you begin:
 - [Create Forge App, get access to a BIM 360 Account](https://forge.autodesk.com/en/docs/bim360/v1/tutorials/getting-started/get-access-to-account/)
@@ -25,7 +25,7 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 
 ## Instructions to run the Postman tutorial are as below:
 
-**Please watch the [Video](https://youtu.be/UCRWpUwLifo) for the detail workflow, or follow the steps:**
+**Please watch the [Video](https://youtu.be/tbd) for the detail workflow, or follow the steps:**
 
 ### Setup Postman environment variables:
 - Import Postman collection, and setup the following environment vialables
@@ -66,7 +66,7 @@ Until now, you should have successfully created a project with all the avialable
 
 ![bim360 workflow automation test](Img/automationtest.png)
 
-**Please watch the [Video](https://youtu.be/h_eFFf8f9UY) for the detail workflow, or follow the steps:**
+**Please refer the [Video](https://youtu.be/tbd) for how to use postman runner, and follow the steps:**
 
 ### Tutorials about workflow
 
