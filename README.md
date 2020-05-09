@@ -86,9 +86,10 @@ Until now, you should have successfully created a project with all the avialable
     | Project Administration | admin | 
     | Document Management | doc_manager | 
     | Project Management | pm | 
+    | Field Management | fng | 
+    | Design Collaboration | collab | 
     | Cost Management | cost | 
     | Model Coordination | gng | 
-    | Design Collabration | collab | 
     | Classic glue | glue | 
     | Classic plan | plan | 
     | Classic field | field | 
