@@ -42,7 +42,7 @@
 							"",
 							"pm.environment.set(\"base_domain\", \"https://developer.api.autodesk.com/\");",
 							"// will activate the service type in the list",
-							"pm.environment.set(\"service_types\", \"doc_manager,fng,pm,admin,cost,gng,glue,plan,field\");",
+							"pm.environment.set(\"service_types\", \"admin,doc_manager,pm,fng,collab,cost,gng,glue,plan,field\");",
 							"",
 							"// reset the index",
 							"pm.environment.set(\"admin_index\", \"0\");",

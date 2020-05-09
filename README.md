@@ -83,11 +83,12 @@ Until now, you should have successfully created a project with all the avialable
 
     | Service Type | Service Name | 
     | :-----:| :----: | 
+    | Project Administration | admin | 
     | Document Management | doc_manager | 
+    | Project Management | pm | 
     | Cost Management | cost | 
     | Model Coordination | gng | 
-    | Project Management | pm | 
-    | Project Administration | admin | 
+    | Design Collabration | collab | 
     | Classic glue | glue | 
     | Classic plan | plan | 
     | Classic field | field | 
