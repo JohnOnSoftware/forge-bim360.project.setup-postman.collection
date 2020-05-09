@@ -81,19 +81,18 @@ Until now, you should have successfully created a project with all the avialable
  # Tips & Tricks
 - Currently, the following project services could be activated by BIM360 API:
 
-    | Service Type | Service Name | 
+    | Service Type | Description | 
     | :-----:| :----: | 
-    | Project Administration | admin | 
-    | Document Management | doc_manager | 
-    | Project Management | pm | 
-    | Field Management | fng | 
-    | Design Collaboration | collab | 
-    | Cost Management | cost | 
-    | Model Coordination | gng | 
-    | Classic glue | glue | 
-    | Classic plan | plan | 
-    | Classic field | field | 
-
+    | admin | BIM 360 Project Administration Service | 
+    | doc_manager | BIM 360 Document Management Service | 
+    | pm | BIM 360 Project Management Service | 
+    | fng | BIM 360 Field Management Service |
+    | collab | BIM 360 Design Collaboration Service | 
+    | cost | BIM 360 Cost Management Service | 
+    | gng | BIM 360 Model Coordination Service | 
+    | plan | BIM 360 Plan Classic Service | 
+    | field | BIM 360 Field Classic Service | 
+    | glue | BIM 360 Glue Classic Service | 
 
 ## License
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
