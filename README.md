@@ -11,9 +11,9 @@
 [![License](https://img.shields.io/:license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 This folder contains a Postman Collection to setup BIM360 project, it provides the functionalities as follow:
-1. Create BIM360 Project.
+1. Create a couple of BIM360 Projects from scratch or template project.
 2. Activate Project services by adding project service admin.
-3. Add users to document management and project administration module.
+3. Import users to document management and project administration module.
 ![Collection](Img/collection.png)
 
 ## Demonstration
@@ -27,37 +27,31 @@ This folder contains a Postman Collection to setup BIM360 project, it provides t
 
 **Please watch the [Video](https://youtu.be/GdJO3dPNXdY) for the detail workflow, or follow the steps:**
 
-### Setup Postman environment variables:
-- Import Postman collection, and setup the following environment vialables
+### Pre-requisites
+- Import Postman collection, create a fresh environment set,and change the following value in Step 0 & Step 3. 
     - in Step 0, Pre-request Script: 
-        - Forge Client Key, please change to your Forge Client Id and Secret.
-        - Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
-        - User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
-        - Base domain, should be https://developer.api.autodesk.com/ by default.
-        - Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
-        - admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
+        - (**Required**)Forge Client Key, please change to your Forge Client Id and Secret.
+        - (**Required**)Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
+        - (**Required**)User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
+        - (Optional)Base domain, should be always https://developer.api.autodesk.com/ by default.
+        - (Optional)Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
+        - (Optional)admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
 
     - in Step 3, Pre-request Script:
-        - Specify the project name that you want to create.
+        - (**Required**)Specify the project name that you want to create.
 
 ### Tutorials of BIM360 project setup workflow
-- Step 0: Reset the environment variables as follow:
-    - Forge Client Key, please change to your Forge Client Id and Secret.
-    - Admin email list, use comma to seperate mulitple admin emails, all the admin in the list will be added as project service admin for avialable service types.
-    - User email list, use comma to seperate mulitple user emails, all the user in the list will be added to document_management and project_administration modules as admin.
-    - Base domain, should be https://developer.api.autodesk.com/ by default.
-    - Service type list, use comma to seperate mulitple service types, all the service type in the list will be activated by adding project service admin.
-    - admin_index, user_index, service_index, these index will be kept to iterate the item in the corresponding list.
+- Step 0: Initiate the necessary environment variables before officially start the workflow.
 - Step 1: Get 2 Legged Token to operate within BIM360 Admin.
-- Step 2: Setup BIM360 Hub and Account Id.
-- Step 3: Create a new project.
+- Step 2: Get and setup BIM360 Account Id.
+- Step 3: Create a new project with specified project name.
 - Step 4: Get company list and setup the company Id.
-- Step 5: Activate each project service by adding project admin. Iterate this step until all the listed project service are activated with all the listed admin. 
-- Step 6: Find and setup project admin.
-- Step 7: Find and setup industry role.
-- Step 8: Add more users to the project, again, iterate to run this step until all the users in the list are added.
+- Step 5: (Iterate)Activate each project service by adding project admin. **Iterate this step until all the listed project service are activated with all the listed admin**. 
+- Step 6: Get and setup project admin.
+- Step 7: Get and setup industry role.
+- Step 8: (Iterate)Import more users to the project, again, **iterate to run this step until all the users in the list are added**.
 
-Until now, you should have successfully created a project with all the avialable project services activated, and all the listed users are imported. But to operate the project services, still have to wait for the project service admin to activate the service from email manually, then you can actually access the project services.
+Until now, you should have successfully created a project with all the avialable project services activated, and all the listed users are imported. But, the project members cannot access those services (UI/API) until the project service admins have manually clicked the activation link from the invitation emails, and logged in BIM360 once. Please refer to the [troubleshooting](https://knowledge.autodesk.com/support/bim-360/troubleshooting/caas/sfdcarticles/sfdcarticles/Users-not-receiving-invite-emails-to-BIM-360-Document-Management-projects.html) if the invitation email is not received.
 
 
 ## Further Reading
