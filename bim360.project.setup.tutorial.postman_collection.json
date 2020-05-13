@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "24511218-2a5e-4c62-bf1a-d90bf2f9227c",
+		"_postman_id": "ccca06b8-faf4-4048-85c9-d3b921fb0e02",
 		"name": "BIM360 Project Setup Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bdbf8ee6-2ec1-499a-a208-7673a75524da",
+						"id": "960493ea-3c80-491f-9420-b98efe9006e6",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
 							"",
@@ -23,7 +23,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "256b3b0c-89c6-42d0-b3fb-6c7c8170a3ac",
+						"id": "e19aa91d-134b-42d7-99f3-8b04ae38ce8f",
 						"exec": [
 							"pm.environment.clear();",
 							"",
@@ -33,21 +33,26 @@
 							"pm.environment.set(\"client_id\",     \"your_forge_client_id\");",
 							"pm.environment.set(\"client_secret\", \"your_forge_client_secret\");",
 							"",
+							"// please make sure to change to the correct project name",
+							"pm.environment.set(\"project_name\", \"Change to your project name\");",
+							"",
 							"// admin email list while activating different services,",
 							"pm.environment.set(\"service_admins\", \"admin1@company.com,admin2@company.com\");",
 							"",
 							"// the user list will be added into the project(project_administration and document_management) as admin",
-							"pm.environment.set(\"user_emails\", \"user1@company.com,user1@company.com\");",
+							"pm.environment.set(\"user_emails\", \"user1@company.com,user2@company.com\");",
 							"//////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
 							"",
+							"// base domain",
 							"pm.environment.set(\"base_domain\", \"https://developer.api.autodesk.com/\");",
-							"// will activate the service type in the list",
+							"",
+							"// will activate the service type in the list, \"insight\" seems not be activated as other services",
 							"pm.environment.set(\"service_types\", \"admin,doc_manager,pm,fng,collab,cost,gng,glue,plan,field\");",
 							"",
 							"// reset the index",
-							"pm.environment.set(\"admin_index\", \"0\");",
-							"pm.environment.set(\"user_index\", \"0\");",
-							"pm.environment.set(\"service_index\", \"0\");"
+							"pm.environment.set(\"admin_index\",    \"0\");",
+							"pm.environment.set(\"user_index\",     \"0\");",
+							"pm.environment.set(\"service_index\",  \"0\");"
 						],
 						"type": "text/javascript"
 					}
@@ -75,7 +80,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2a6e1f31-7798-4bb5-8fd1-c04755e11c79",
+						"id": "5f49478b-5903-4d03-9b94-31443835e8d1",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -91,7 +96,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "72c9a6b7-d8a2-40fc-97f6-ba1a024fe5d2",
+						"id": "6089e174-83ae-4d24-a4bb-b6228ca88797",
 						"exec": [
 							""
 						],
@@ -151,7 +156,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f296d687-c6b1-4779-a68d-d0d5461faf19",
+						"id": "e60dc3a5-a8a4-4462-8aca-9cce279441b0",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
 							"",
@@ -170,7 +175,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ad81e581-6355-489b-9a02-7689b08e0484",
+						"id": "b5447f13-c60a-491f-8347-cf0b50575d0c",
 						"exec": [
 							""
 						],
@@ -211,10 +216,8 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "a9335a0d-b69b-4998-b59f-b5b3dc9eebf8",
+						"id": "7f856034-3e41-482f-bbbc-33a83c449259",
 						"exec": [
-							"// please make sure to change to the correct project name",
-							"pm.environment.set(\"project_name\", \"Change to your project name\");",
 							""
 						],
 						"type": "text/javascript"
@@ -223,7 +226,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5d273a65-53c4-4908-ac0c-a01f21394b86",
+						"id": "5e800f44-14d4-4433-8811-5f560e731a6e",
 						"exec": [
 							"",
 							"pm.test(\"Successful POST request\", function () {",
@@ -288,7 +291,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d1e32db5-500c-47bb-ad65-eaa215a8ce92",
+						"id": "064411d1-084d-4906-a733-5eca81c08cf5",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -348,7 +351,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7901eae4-f262-40ad-9439-00eb83539c91",
+						"id": "473413c3-487c-4e3e-8b05-13d510077434",
 						"exec": [
 							"pm.test(\"Successful POST request\", function () {",
 							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
@@ -380,7 +383,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "61ead80e-5592-44f8-aef1-f1cf01e0b376",
+						"id": "ae18b342-3471-4078-9043-d67d62840e15",
 						"exec": [
 							"// Set the current service admin email",
 							"var admin_index    =  parseInt(pm.environment.get(\"admin_index\"));",
@@ -459,7 +462,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dfefa80b-e0c3-41fd-8ce6-57c363f083e3",
+						"id": "e29e9fca-df55-4eaf-8abe-62229d84a39d",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -472,14 +475,6 @@
 							"    pm.environment.set(\"project_admin_id\", project_admin.id);",
 							"}",
 							"",
-							"",
-							"",
-							"// for ( var index in responseBody.results) {",
-							"//     if(responseBody.results[index].accessLevels.projectAdmin == true && responseBody.results[index].status == \"active\"){",
-							"//         postman.setEnvironmentVariable(\"project_admin_id\", responseBody.results[index].id);",
-							"//         return;",
-							"//     }",
-							"// }",
 							""
 						],
 						"type": "text/javascript"
@@ -527,7 +522,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9a323cfd-b828-4e14-99a5-15ed61086bee",
+						"id": "20a4e246-eb64-4cca-9443-62b82331e6a2",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -593,7 +588,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "60d2dfbf-e3d3-4a33-8ba6-8aa638bdaf7f",
+						"id": "78f5a144-979e-4a84-ae76-0ca411b66eda",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -616,7 +611,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5875ff56-19f5-46e9-9bfe-4bece25b82a3",
+						"id": "610cd60c-b9f0-4fc4-9701-ce50e297b369",
 						"exec": [
 							"var user_emails =  pm.environment.get(\"user_emails\");",
 							"var user_index =  parseInt(pm.environment.get(\"user_index\"));",
@@ -707,7 +702,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "2aeab420-5fbb-401b-84ec-057181ebe9fc",
+				"id": "f6d0d3b3-18ab-49ed-94bd-ba9543e693a7",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -717,7 +712,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "d0a0ffc5-175f-45fa-805d-152eaebbbd56",
+				"id": "cd20e7ed-1c40-4360-b48e-e3f6a7baf119",
 				"type": "text/javascript",
 				"exec": [
 					""
